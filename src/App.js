@@ -1,12 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import Login from './components/login/Login';
-import Home from './components/home/Home';
+import Login from './components/Login/Login';
+import Home from './components/Home/Home';
+import Edit from './components/Edit/Edit';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import React, { Component } from 'react';
-import axios from 'axios'
-
-
+import axios from 'axios';
 
 class App extends Component {
   constructor(props) {
@@ -17,14 +16,10 @@ class App extends Component {
   }
 
   submit = (user) => {
-
     this.setState({
       user: user
     })  
-
-
   }
-
 
   render() {
     return (
@@ -45,7 +40,7 @@ class App extends Component {
           }
         >
         </Route>
-
+          <Route path="/dev" component={Edit}></Route>
       </Router>);
   }
 }

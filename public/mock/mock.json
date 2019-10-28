@@ -1,0 +1,14 @@
+{
+    "userInfos": [
+        {
+            "user":"test",
+            "password": 1234
+        },
+        {
+            "user":"b",
+            "password": 2
+        }
+    ],
+    "loginStatus":"success"
+
+}

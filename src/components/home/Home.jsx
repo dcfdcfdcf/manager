@@ -2,24 +2,25 @@ import React, { Component } from 'react';
 import './Home.css';
 import SideBar from '../sideBar/SideBar.js';
 import Header from '../Header/Header.js';
-import Content from '../Content/Content.jsx';
+import Content from '../List/List.jsx';
 import Detail from '../Detail/Detail.js';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
-
-
-class List extends Component {
+class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
             data: []
         };
     }
+    
     render() {
         return (
-            <div width="100%">
-                <Header user={this.props.user} />
+            <div>
                 <div className="row">
+                    <div className="col-md-12">
+                        <Header user={this.props.user} />
+                    </div>
                     <div className="col-md-3">
                         <SideBar />
                     </div>
@@ -35,4 +36,4 @@ class List extends Component {
     }
 }
 
-export default List;
+export default Home;

@@ -4,6 +4,7 @@ import axios from "axios"
 import userInfo from '../../userInfo/userInfo.js';
 import { Link } from 'react-router-dom'
 
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -32,28 +33,32 @@ class Login extends Component {
       return
     }
 
-    axios.post('http://localhost:3000/manifest.json', { ...this.state }).then(
-      res => {
-        if (res.returnCode === '200') {
-          this.setState({
-            loginUrl: '/home'
-          },() => {
-            this.props.submit(this.state.user);
+    axios.get(
+      'http://localhost:3000/mock/mock.json',
+      { ...this.state },
+      {
+        'headers': {
+          'Content-Type': 'application/json'
+        },
+      }).then(
+        res =>{
+          if (res.data.loginStatus === 'success' && res.status === 200) {
+            window.location.href = window.location.href + 'home'
+              this.props.submit(this.state.user);
 
-          })
-          
-        }else{
-          this.setState({
-            loginUrl: '/login'
-          })
+
+          } else {
+            this.setState({
+              loginUrl: '/login'
+            })
+          }
         }
-      }
-    ).catch(
-      error => {
-        this.props.submit(this.state.user)
-      }
-    )
-   // this.props.submit(this.state);
+      ).catch(
+        error => {
+          this.props.submit(this.state.user)
+        }
+      )
+    // this.props.submit(this.state);
 
   }
 
