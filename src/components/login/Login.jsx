@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './login.css';
 import axios from "axios"
-import userInfo from '../../userInfo/userInfo.js';
+import userInfo from '../../UserInfo/UserInfo';
 import { Link } from 'react-router-dom'
 
 
@@ -29,7 +29,7 @@ class Login extends Component {
 
   login = () => {
     if (this.state.user === '' || this.state.password === '') {
-      alert("nishuruxinxibuwanzheng")
+      alert("登陆账号或密码不能为空")
       return
     }
 
@@ -41,10 +41,10 @@ class Login extends Component {
           'Content-Type': 'application/json'
         },
       }).then(
-        res =>{
+        res => {
           if (res.data.loginStatus === 'success' && res.status === 200) {
             window.location.href = window.location.href + 'home'
-              this.props.submit(this.state.user);
+            this.props.submit(this.state.user);
 
 
           } else {

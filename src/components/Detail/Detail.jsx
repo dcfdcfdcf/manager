@@ -1,21 +1,38 @@
 
 import ReactEcharts from 'echarts-for-react';
 import React, { Component } from 'react';
+import axios from 'axios'
 
 
 class Detail extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            data:[]
+        };
     }
 
+    componentDidMount() {
+        axios.get(
+            'http://localhost:3000/mock/mock.json',
+            {
+                'headers': {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => {
+                alert('求数据成功')//加请求数据成功
+                this.setState({
+                    data: res.data.userCounts
+                })
+            });
+    }
 
     getOption = () => {
         return (
             {
                 backgroundColor: '#2c343c',
                 title: {
-                    text: 'Customized Pie',
+                    text: '用户登陆次数统计',
                     left: 'center',
                     top: 20,
                     textStyle: {
@@ -30,8 +47,8 @@ class Detail extends Component {
 
                 visualMap: {
                     show: false,
-                    min: 80,
-                    max: 600,
+                    min: 0,
+                    max: 100,
                     inRange: {
                         colorLightness: [0, 1]
                     }
@@ -42,13 +59,12 @@ class Detail extends Component {
                         type: 'pie',
                         radius: '55%',
                         center: ['50%', '50%'],
-                        data: [
-                            { value: 335, name: '直接访问' },
-                            { value: 310, name: '邮件营销' },
-                            { value: 274, name: '联盟广告' },
-                            { value: 235, name: '视频广告' },
-                            { value: 400, name: '搜索引擎' }
-                        ].sort(function (a, b) { return a.value - b.value; }),
+                        data: this.state.data.map((value,index,item) => {
+                            return {
+                                value: value.count,
+                                name: value.user
+                            }
+                        }).sort(function (a, b) { return a.value - b.value; }),
                         roseType: 'radius',
                         label: {
                             normal: {

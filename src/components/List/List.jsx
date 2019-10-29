@@ -1,14 +1,37 @@
 import React, { Component } from 'react';
 import axios from "axios";
-import PopWins from '../Edit/Edit.jsx';
 
 class List extends Component {
     constructor(props) {
         super(props);
         this.state = {
             data: [],
-            com: null
+            com: null,
+            curEdit: ''
         };
+    }
+
+
+    /***
+     * 点击新增按钮后请求后台添加数据并更新页面数据
+     */
+    componentWillReceiveProps(nextProps) {
+        console.log(88888, nextProps)
+        if (this.props.isAdd !== nextProps.isAdd && nextProps.isAdd) {
+            axios.get(
+                'http://localhost:3000/mock/mock.json',
+
+                {
+                    'headers': {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(res => {
+                    alert('添加数据成功')//加请求数据成功
+                    this.setState({
+                        data: res.data.userInfos
+                    })
+                });
+        }
     }
 
     componentDidMount() {
@@ -19,35 +42,97 @@ class List extends Component {
                     'Content-Type': 'application/json'
                 }
             }).then(res => {
-                alert(JSON.stringify(res))
+                alert('求数据成功')//加请求数据成功
                 this.setState({
                     data: res.data.userInfos
                 })
             });
     }
 
+    /**
+     * 删除数据处理
+     */
+
     delete = (index) => {
-        this.state.data.splice(index, 1);
-        this.setState({
-            data: this.state.data
-        })
+        axios.get(
+            'http://localhost:3000/mock/mock.json',
+            {
+                'headers': {
+                    'Content-Type': 'application/json'
+                }
+            }
+        ).then(
+            res => {
+                //加后台删除数据成功
+                this.state.data.splice(index, 1);
+                this.setState({
+                    data: this.state.data
+                })
+            }
+        )
+
     }
 
-    edit = (index) => {
+    /***
+     * 弹出编辑页面
+     */
+    editBtnHandle = (value) => {
         import('../Edit/Edit.jsx').then(com => {
             console.log(com)
             this.setState({
-                com: com.default
+                com: com.default,
+                curEdit: value
             });
         })
     }
 
+    /***
+     * 关闭弹框
+     */
+    closeModal = (isDisplay) => {
+        console.log(222, isDisplay)
+        this.setState({
+            com: !isDisplay && null
+        });
+    }
+
+    saveData = (newInfos) => {
+        console.log(77777, newInfos);
+        axios.get(
+            'http://localhost:3000/mock/mock.json',
+            {
+                ...newInfos
+            },
+            {
+                'headers': {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => {
+                //判断请求后台修改数据成功
+                let index = this.state.data.indexOf(newInfos.user);
+                this.state.data.splice(index - 1, 1, { ...newInfos });
+                this.setState({
+                    //data: res.data.userInfos
+                    data: this.state.data
+                })
+                alert('修改数据成功')//加请求数据成功
+
+            });
+    }
+
     render() {
-        console.log(<this.state.com/>);
-        console.log(<PopWins/>)
         return (
             <div>
-                {this.state.com? <this.state.com/> : null}
+                {
+                    this.state.com
+                        ? <this.state.com
+                            closeModal={this.closeModal}
+                            value={this.state.curEdit}
+                            saveData={this.saveData}
+                            saveBtnClick
+                        />
+                        : null
+                }
                 <table className="table table-bordered" >
                     <thead>
                         <tr>
@@ -66,7 +151,7 @@ class List extends Component {
                                         <td>
                                             <a onClick={() => this.delete(index)}>删除</a>
                                             &nbsp;&nbsp;
-                                        <a onClick={() => this.edit(index)}>编辑</a>
+                                        <a onClick={() => this.editBtnHandle(value)}>编辑</a>
                                         </td>
                                     </tr>
                                 )

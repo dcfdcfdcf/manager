@@ -40,7 +40,6 @@ class App extends Component {
           }
         >
         </Route>
-          <Route path="/dev" component={Edit}></Route>
       </Router>);
   }
 }
