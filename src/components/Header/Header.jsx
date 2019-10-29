@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import userInfo from '../../UserInfo/UserInfo.jsx';
+import userInfo from '../../UserInfo/UserInfo';
+import PopWin from '../PopWin/PopWin';
 
 class Header extends Component {
     constructor(props) {
@@ -45,7 +46,7 @@ class Header extends Component {
         import('../Edit/Edit.jsx').then(com => {
             console.log(com)
             this.setState({
-                com: com.default,
+                com: PopWin(com.default, '新增用户', '取消', '保存'),
             });
         })
     }

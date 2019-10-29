@@ -20,7 +20,7 @@ class Detail extends Component {
                     'Content-Type': 'application/json'
                 }
             }).then(res => {
-                alert('求数据成功')//加请求数据成功
+                //加请求数据成功
                 this.setState({
                     data: res.data.userCounts
                 })

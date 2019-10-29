@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PopWin from '../PopWin/PopWin';
 import axios from 'axios';
 
 
@@ -63,4 +62,4 @@ class Edit extends Component {
 }
 
 
-export default PopWin(Edit, '密码修改', '取消', '保存');
+export default Edit;

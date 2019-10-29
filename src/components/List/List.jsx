@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import PopWin from '../PopWin/PopWin';
+
 
 class List extends Component {
     constructor(props) {
@@ -80,7 +82,7 @@ class List extends Component {
         import('../Edit/Edit.jsx').then(com => {
             console.log(com)
             this.setState({
-                com: com.default,
+                com: PopWin(com.default, '密码修改', '取消', '保存'),
                 curEdit: value
             });
         })
