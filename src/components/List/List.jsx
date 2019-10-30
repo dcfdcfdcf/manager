@@ -20,7 +20,7 @@ class List extends Component {
     componentWillReceiveProps(nextProps) {
         console.log(88888, nextProps)
         if (this.props.isAdd !== nextProps.isAdd && nextProps.isAdd) {
-            axios.get(
+            axios.post(
                 'http://localhost:3000/mock/mock.json',
 
                 {
@@ -39,6 +39,7 @@ class List extends Component {
     componentDidMount() {
         axios.get(
             'http://localhost:3000/mock/mock.json',
+
             {
                 'headers': {
                     'Content-Type': 'application/json'
@@ -111,8 +112,11 @@ class List extends Component {
                 }
             }).then(res => {
                 //判断请求后台修改数据成功
-                let index = this.state.data.indexOf(newInfos.user);
-                this.state.data.splice(index - 1, 1, { ...newInfos });
+                this.state.data.map((value,index,item) => {
+                    if(value.user === newInfos.user){
+                        value.password = newInfos.password
+                    }
+                });
                 this.setState({
                     //data: res.data.userInfos
                     data: this.state.data
